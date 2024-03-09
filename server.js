@@ -1,13 +1,10 @@
-/*********************************************************************************
-*  WEB700 – Assignment 03
-*  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.  No part 
-*  of this assignment has been copied manually or electronically from any other source 
-*  (including 3rd party web sites) or distributed to other students.
-* 
-*  Name: Nischal Maharjan Student ID: 146739222 Date: 17th Feb,2024
-*
-********************************************************************************/ 
-
+/**********************************************************************************
+ *  WEB700 – Assignment 04
+ * I declare that this assignment is my own work in accordance with Seneca Academic Policy.
+ *  No part* 
+ * of this assignment has been copied manually or electronically from any other source* (including 3rd party web sites) or distributed to other students.** 
+ * Name: Nischal Maharjan Student ID: 146739222 Date: 3/9/2024** 
+ * Online (Cycliic) Link: ________________________________________________________*********************************************************************************/
 
 // Set up the HTTP port to use the environment variable PORT if available, or default to 8080
 var HTTP_PORT = process.env.PORT || 8080;
@@ -22,6 +19,21 @@ var collegeData = require("./modules/collegeData.js");
 collegeData.initialize()
     .then(() => {
         // Define routes
+
+        app.post('/students/add', (req, res) => {
+            // Call the addStudent function from collegeData.js module
+            addStudent(req.body)
+              .then(() => {
+                // Redirect to the "/students" route
+                res.redirect('/students');
+              })
+              .catch((error) => {
+                // Handle any errors that occur during the addStudent function
+                console.error('Error adding student:', error);
+                // Send an error response if needed
+                res.status(500).send('Error adding student');
+              });
+          });
 
         // Route to get all students or students by course
         app.get("/students", (req, res) => {
@@ -112,6 +124,11 @@ collegeData.initialize()
         // Route to serve the about page
         app.get("/about", (req, res) => {
             res.sendFile(path.join(__dirname, "views", "about.html"));
+        });
+
+         // Route to serve the Add Student page
+         app.get("/students/add", (req, res) => {
+            res.sendFile(path.join(__dirname, "views", "addStudent.html"));
         });
 
         // Route to serve the home page

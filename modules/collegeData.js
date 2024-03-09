@@ -114,3 +114,19 @@ module.exports.getStudentsByCourse = function (course) {
         resolve(filteredStudents);
     });
 };
+
+module.exports.addStudent = function(studentData) {
+    return new Promise((resolve, reject) => {
+      // If TA is undefined, set it to false; otherwise, set it to true
+      studentData.TA = studentData.TA === undefined ? false : true;
+      
+      // Set the studentNum property to the length of the dataCollection.students array plus one
+      studentData.studentNum = dataCollection.students.length + 1;
+  
+      // Push the updated studentData object onto the dataCollection.students array
+      dataCollection.students.push(studentData);
+  
+      // Resolve the promise to indicate successful addition of the student
+      resolve();
+    });
+  };
